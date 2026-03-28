@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silsilah Keluarga Simbah Pawirojoyo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #e8f4f8;
+            --text-primary: #2c3e50;
+            --text-secondary: #666;
+            --text-tertiary: #888;
+            --accent-primary: #3498db;
+            --accent-secondary: #2980b9;
+            --border-color: #3498db;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 10px rgba(0,0,0,0.08);
+            --shadow-lg: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        body.dark-mode {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --text-primary: #eaeaea;
+            --text-secondary: #b8b8b8;
+            --text-tertiary: #888;
+            --accent-primary: #4a90e2;
+            --accent-secondary: #357abd;
+            --border-color: #4a90e2;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .header-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .icon-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .icon-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .search-container {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 1rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .search-results {
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .search-result-item {
+            padding: 10px 15px;
+            background-color: var(--bg-card);
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .search-result-item:hover {
+            background-color: var(--accent-primary);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            gap: 5px;
+        }
+        
+        .breadcrumb-item {
+            cursor: pointer;
+            color: var(--accent-primary);
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb-item:after {
+            content: " → ";
+            margin-left: 5px;
+            color: var(--text-tertiary);
+        }
+        
+        .breadcrumb-item:last-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .breadcrumb-item:last-child:after {
+            content: "";
+        }
+        
+        .breadcrumb-item:hover {
+            background-color: var(--bg-card);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .family-container {
+            background-color: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 20px 15px;
+            box-shadow: var(--shadow-md);
+            min-height: 400px;
+        }
+        
+        .family-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--bg-card);
+        }
+        
+        .family-header h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        
+        .generation-badge {
+            display: inline-block;
+            background-color: var(--accent-primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .family-level {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            justify-items: center;
+        }
+        
+        .family-member {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            max-width: 180px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .family-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .family-member:hover::before {
+            left: 100%;
+        }
+        
+        .family-member:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-secondary);
+        }
+        
+        .family-member.has-children::after {
+            content: "▼";
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            color: var(--accent-primary);
+            font-size: 1.2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .member-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.3;
+        }
+        
+        .member-details {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 5px 10px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 12px;
+            margin-top: 5px;
+        }
+        
+        .no-children {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
+        
+        .filter-container {
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .filter-btn {
+            padding: 8px 15px;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: var(--bg-secondary);
+            margin: 10% auto;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .close {
+            color: var(--text-tertiary);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close:hover {
+            color: var(--text-primary);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .family-level {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .family-member {
+                max-width: 150px;
+                padding: 12px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .family-level {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+            
+            .family-member {
+                max-width: 130px;
+                padding: 10px;
+            }
+            
+            .member-name {
+                font-size: 0.85rem;
+            }
+            
+            .member-details {
+                font-size: 0.75rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 Silsilah Keluarga Simbah Pawirojoyo</h1>
+            <p class="subtitle">Klik pada nama untuk melihat keturunan</p>
+            <div class="header-controls">
+                <button class="icon-button" onclick="toggleDarkMode()">
+                    🌓 Mode Gelap
+                </button>
+                <button class="icon-button" onclick="showStats()">
+                    📊 Statistik
+                </button>
+                <button class="icon-button" onclick="resetToRoot()">
+                    🏠 Kembali ke Awal
+                </button>
+            </div>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Cari nama anggota keluarga..." onkeyup="searchFamily()">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+        
+        <div class="breadcrumb" id="breadcrumb"></div>
+        
+        <div class="family-container" id="familyContainer"></div>
+    </div>
+    
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="margin-bottom: 20px; color: var(--text-primary);">📊 Statistik Keluarga</h2>
+            <div class="stats-container" id="statsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Data keluarga Simbah Pawirojoyo
+        const familyData = {
+            "root": {
+                id: "root",
+                name: "PAWIROJOYO (Keluarga Besar)",
+                children: ["1", "2", "3", "4", "5", "6", "7", "8"]
+            },
+            
+            // Generasi 1 - 8 anak utama
+            "1": { id: "1", name: "JOYO WERDOYO (Alm)", children: ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6"] },
+            "2": { id: "2", name: "ADMO DIMEJO", children: ["2.1", "2.2", "2.3", "2.4"] },
+            "3": { id: "3", name: "DARMO Wiyono", children: ["3.1", "3.2", "3.3", "3.4", "3.5", "3.6"] },
+            "4": { id: "4", name: "SASTRO Suwignyo", children: ["4.1"] },
+            "5": { id: "5", name: "PAWIRO WIYONO", children: ["5.1", "5.2", "5.3", "5.4", "5.5"] },
+            "6": { id: "6", name: "KISMO MARTOYO", children: ["6.1", "6.2", "6.3", "6.4", "6.5"] },
+            "7": { id: "7", name: "WARGA SUDARTA", children: ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"] },
+            "8": { id: "8", name: "SUPRATINAH", children: ["8.1", "8.2", "8.3", "8.4", "8.5"] },
+            
+            // Generasi 2 - Cucu dari JOYO WERDOYO
+            "1.1": { id: "1.1", name: "SUMEDI (alm) + Suparti", children: ["1.1.1", "1.1.2", "1.1.3", "1.1.4", "1.1.5", "1.1.6"] },
+            "1.2": { id: "1.2", name: "SUMIRAH (Alm) + Sudarno", children: ["1.2.1", "1.2.2"] },
+            "1.3": { id: "1.3", name: "SUJILAH + Paiman (alm)", children: ["1.3.1"] },
+            "1.4": { id: "1.4", name: "MARYOTO + Sabariyah", children: ["1.4.1", "1.4.2", "1.4.3", "1.4.4"] },
+            "1.5": { id: "1.5", name: "SUROSO + Widjiati", children: ["1.5.1", "1.5.2", "1.5.3", "1.5.4", "1.5.5", "1.5.6"] },
+            "1.6": { id: "1.6", name: "Yoko Suparno + Hadi Asih", children: ["1.6.1", "1.6.2"] },
+            
+            // Generasi 3 - Cicit dari SUMEDI
+            "1.1.1": { id: "1.1.1", name: "Sukoco (Alm) + Harsetyati", children: ["1.1.1.1", "1.1.1.2"] },
+            "1.1.2": { id: "1.1.2", name: "Agus Supono + Winarni", children: ["1.1.2.1", "1.1.2.2"] },
+            "1.1.3": { id: "1.1.3", name: "Priyo Tri Purnomo + Muryati", children: ["1.1.3.1", "1.1.3.2", "1.1.3.3", "1.1.3.4"] },
+            "1.1.4": { id: "1.1.4", name: "Retno W + Zulfadli", children: ["1.1.4.1", "1.1.4.2"] },
+            "1.1.5": { id: "1.1.5", name: "Subur Widodo + Erni", children: ["1.1.5.1", "1.1.5.2"] },
+            "1.1.6": { id: "1.1.6", name: "Sembodo + Mila", children: ["1.1.6.1", "1.1.6.2"] },
+            
+            // Generasi 4 - Canggah
+            "1.1.1.1": { id: "1.1.1.1", name: "Asti + Dedi", children: [] },
+            "1.1.1.2": { id: "1.1.1.2", name: "Andika Saputra", children: [] },
+            "1.1.2.1": { id: "1.1.2.1", name: "Agus Sunarto", children: [] },
+            "1.1.2.2": { id: "1.1.2.2", name: "Dwi + Nyonya Dwi", children: [] },
+            "1.1.3.1": { id: "1.1.3.1", name: "Joko Novianto", children: [] },
+            "1.1.3.2": { id: "1.1.3.2", name: "Putri", children: [] },
+            "1.1.3.3": { id: "1.1.3.3", name: "Yulian", children: [] },
+            "1.1.3.4": { id: "1.1.3.4", name: "Wilda", children: [] },
+            "1.1.4.1": { id: "1.1.4.1", name: "Nanda Kusumaningsih", children: [] },
+            "1.1.4.2": { id: "1.1.4.2", name: "Adinda Sukmaningsih", children: [] },
+            "1.1.5.1": { id: "1.1.5.1", name: "Lia", children: [] },
+            "1.1.5.2": { id: "1.1.5.2", name: "Akmal", children: [] },
+            "1.1.6.1": { id: "1.1.6.1", name: "Iyan", children: [] },
+            "1.1.6.2": { id: "1.1.6.2", name: "Arfan Wijaya", children: [] },
+            
+            // Generasi 3 - Cicit dari SUMIRAH
+            "1.2.1": { id: "1.2.1", name: "Suwijiati + Muhadi", children: ["1.2.1.1"] },
+            "1.2.2": { id: "1.2.2", name: "Bambang + Tutik", children: ["1.2.2.1", "1.2.2.2"] },
+            
+            // Generasi 4
+            "1.2.1.1": { id: "1.2.1.1", name: "Evi + Joko", children: ["1.2.1.1.1", "1.2.1.1.2", "1.2.1.1.3", "1.2.1.1.4"] },
+            "1.2.2.1": { id: "1.2.2.1", name: "Anggun Hapsari", children: [] },
+            "1.2.2.2": { id: "1.2.2.2", name: "Andrian Anthapati", children: [] },
+            
+            // Generasi 5
+            "1.2.1.1.1": { id: "1.2.1.1.1", name: "Ayu Antika Sari", children: [] },
+            "1.2.1.1.2": { id: "1.2.1.1.2", name: "Hendra Saputra", children: [] },
+            "1.2.1.1.3": { id: "1.2.1.1.3", name: "Aditya Tri S", children: [] },
+            "1.2.1.1.4": { id: "1.2.1.1.4", name: "Dina Permata S", children: [] },
+            
+            // Generasi 3 - Cicit dari SUJILAH
+            "1.3.1": { id: "1.3.1", name: "Eko Kuncoro Yanti", children: ["1.3.1.1", "1.3.1.2"] },
+            "1.3.1.1": { id: "1.3.1.1", name: "Yudha", children: [] },
+            "1.3.1.2": { id: "1.3.1.2", name: "Mauline", children: [] },
+            
+            // Generasi 3 - Cicit dari MARYOTO
+            "1.4.1": { id: "1.4.1", name: "Purwanti + Umar S", children: ["1.4.1.1", "1.4.1.2"] },
+            "1.4.2": { id: "1.4.2", name: "Purwantoro", children: [] },
+            "1.4.3": { id: "1.4.3", name: "Purnomo", children: [] },
+            "1.4.4": { id: "1.4.4", name: "Pur Subagyo", children: [] },
+            "1.4.1.1": { id: "1.4.1.1", name: "F Eko Saputro", children: [] },
+            "1.4.1.2": { id: "1.4.1.2", name: "Nanda Dwi Yuliani", children: [] },
+            
+            // Generasi 3 - Cicit dari SUROSO
+            "1.5.1": { id: "1.5.1", name: "Ambar RW + Taufik", children: ["1.5.1.1", "1.5.1.2"] },
+            "1.5.2": { id: "1.5.2", name: "Peni RW + Gunawan", children: ["1.5.2.1", "1.5.2.2"] },
+            "1.5.3": { id: "1.5.3", name: "Cahyani RW + Supriyono", children: ["1.5.3.1", "1.5.3.2"] },
+            "1.5.4": { id: "1.5.4", name: "Daris RW + Nining", children: ["1.5.4.1", "1.5.4.2"] },
+            "1.5.5": { id: "1.5.5", name: "Ibnu RW + Eka", children: ["1.5.5.1"] },
+            "1.5.6": { id: "1.5.6", name: "Fajar RW + Jayadi", children: [] },
+            "1.5.1.1": { id: "1.5.1.1", name: "Aldi RW", children: [] },
+            "1.5.1.2": { id: "1.5.1.2", name: "Irfan RW", children: [] },
+            "1.5.2.1": { id: "1.5.2.1", name: "Diva RW", children: [] },
+            "1.5.2.2": { id: "1.5.2.2", name: "Hikmal", children: [] },
+            "1.5.3.1": { id: "1.5.3.1", name: "Rizky RW", children: [] },
+            "1.5.3.2": { id: "1.5.3.2", name: "Hafish RW", children: [] },
+            "1.5.4.1": { id: "1.5.4.1", name: "Dinda RW", children: [] },
+            "1.5.4.2": { id: "1.5.4.2", name: "Azzam RW", children: [] },
+            "1.5.5.1": { id: "1.5.5.1", name: "Ageska KRW", children: [] },
+            
+            // Generasi 3 - Cicit dari Yoko Suparno
+            "1.6.1": { id: "1.6.1", name: "Lisa + Teguh Hari Wibowo", children: ["1.6.1.1", "1.6.1.2"] },
+            "1.6.2": { id: "1.6.2", name: "Awang + Cristine", children: ["1.6.2.1"] },
+            "1.6.1.1": { id: "1.6.1.1", name: "Pascalia", children: [] },
+            "1.6.1.2": { id: "1.6.1.2", name: "Elang", children: [] },
+            "1.6.2.1": { id: "1.6.2.1", name: "Win", children: [] },
+            
+            // Generasi 2 - Cucu dari ADMO DIMEJO
+            "2.1": { id: "2.1", name: "Ny Semi + Pademo", children: [] },
+            "2.2": { id: "2.2", name: "Suripto + Suyati", children: ["2.2.1", "2.2.2", "2.2.3", "2.2.4", "2.2.5"] },
+            "2.3": { id: "2.3", name: "Suratno + Sri", children: ["2.3.1", "2.3.2", "2.3.3", "2.3.4"] },
+            "2.4": { id: "2.4", name: "Ngadinem + Adi Wiyono", children: ["2.4.1", "2.4.2", "2.4.3"] },
+            
+            // Generasi 3 - Cicit dari Suripto
+            "2.2.1": { id: "2.2.1", name: "Heri Purnomo + Sri Hartiwi", children: ["2.2.1.1", "2.2.1.2"] },
+            "2.2.2": { id: "2.2.2", name: "Dwi Indarti + Sunjoto", children: ["2.2.2.1", "2.2.2.2"] },
+            "2.2.3": { id: "2.2.3", name: "Heri Trianta + Nike Novitasari", children: ["2.2.3.1", "2.2.3.2"] },
+            "2.2.4": { id: "2.2.4", name: "Nuryati + Harjono", children: ["2.2.4.1", "2.2.4.2", "2.2.4.3"] },
+            "2.2.5": { id: "2.2.5", name: "Heri Pancoko Nugroho + Sri Nurcahyani", children: ["2.2.5.1", "2.2.5.2", "2.2.5.3"] },
+            
+            // Generasi 4
+            "2.2.1.1": { id: "2.2.1.1", name: "Javier Mabel Kalyana", children: [] },
+            "2.2.1.2": { id: "2.2.1.2", name: "Janitra Bima Kalyana", children: [] },
+            "2.2.2.1": { id: "2.2.2.1", name: "Chaesara Pahleva + Jusuf Rahmanto", children: ["2.2.2.1.1"] },
+            "2.2.2.2": { id: "2.2.2.2", name: "Fairusufa Salsabila", children: [] },
+            "2.2.3.1": { id: "2.2.3.1", name: "Gelar Arya Legowo", children: [] },
+            "2.2.3.2": { id: "2.2.3.2", name: "Gendis Sahara Putri Triyanta", children: [] },
+            "2.2.4.1": { id: "2.2.4.1", name: "Adam", children: [] },
+            "2.2.4.2": { id: "2.2.4.2", name: "Hamiizah", children: [] },
+            "2.2.4.3": { id: "2.2.4.3", name: "Abbas", children: [] },
+            "2.2.5.1": { id: "2.2.5.1", name: "Hilal Urda Sadya", children: [] },
+            "2.2.5.2": { id: "2.2.5.2", name: "Kiandra", children: [] },
+            "2.2.5.3": { id: "2.2.5.3", name: "Gibran", children: [] },
+            
+            // Generasi 5
+            "2.2.2.1.1": { id: "2.2.2.1.1", name: "Hanasita Kei", children: [] },
+            
+            // Generasi 3 - Cicit dari Suratno
+            "2.3.1": { id: "2.3.1", name: "Sunduro + Tri Lestari", children: ["2.3.1.1"] },
+            "2.3.2": { id: "2.3.2", name: "Sundari + Deni AS", children: ["2.3.2.1"] },
+            "2.3.3": { id: "2.3.3", name: "Tri Budi + Weningku DamarJati", children: ["2.3.3.1"] },
+            "2.3.4": { id: "2.3.4", name: "Soeharso + Yulianti", children: ["2.3.4.1"] },
+            "2.3.1.1": { id: "2.3.1.1", name: "Alya Ratih Iswandari", children: [] },
+            "2.3.2.1": { id: "2.3.2.1", name: "Hans Anayutama", children: [] },
+            "2.3.3.1": { id: "2.3.3.1", name: "Fayola Oka Gayatri", children: [] },
+            "2.3.4.1": { id: "2.3.4.1", name: "Nabila Adani Setyaningtyas", children: [] },
+            
+            // Generasi 3 - Cicit dari Ngadinem
+            "2.4.1": { id: "2.4.1", name: "Ngatijan + Tri Haryanti", children: ["2.4.1.1", "2.4.1.2", "2.4.1.3"] },
+            "2.4.2": { id: "2.4.2", name: "Ngadiyem + Mardiyo", children: ["2.4.2.1", "2.4.2.2"] },
+            "2.4.3": { id: "2.4.3", name: "Marwati + Ashari", children: ["2.4.3.1", "2.4.3.2"] },
+            "2.4.1.1": { id: "2.4.1.1", name: "Gunawan Eko Prasetyo", children: [] },
+            "2.4.1.2": { id: "2.4.1.2", name: "Dimas Gunarto", children: [] },
+            "2.4.1.3": { id: "2.4.1.3", name: "Tri Djoko Gunarso", children: [] },
+            "2.4.2.1": { id: "2.4.2.1", name: "Panji Riyoko", children: [] },
+            "2.4.2.2": { id: "2.4.2.2", name: "Galih Fitrianto", children: [] },
+            "2.4.3.1": { id: "2.4.3.1", name: "Estri Ari Respati", children: [] },
+            "2.4.3.2": { id: "2.4.3.2", name: "Sekar Juwitaningsih", children: [] },
+            
+            // Generasi 2 - Cucu dari DARMO Wiyono
+            "3.1": { id: "3.1", name: "Yitno Suwardi + Jumiyem", children: ["3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.1.6", "3.1.7"] },
+            "3.2": { id: "3.2", name: "Suwarti + Musto", children: ["3.2.1", "3.2.2"] },
+            "3.3": { id: "3.3", name: "Supartinah + Bejo", children: ["3.3.1", "3.3.2"] },
+            "3.4": { id: "3.4", name: "Suwarno + Ny", children: ["3.4.1", "3.4.2", "3.4.3", "3.4.4"] },
+            "3.5": { id: "3.5", name: "Suwandi + Rubicon", children: ["3.5.1", "3.5.2", "3.5.3"] },
+            "3.6": { id: "3.6", name: "Sukirman + Myke Mandaun", children: ["3.6.1", "3.6.2", "3.6.3", "3.6.4", "3.6.5"] },
+            
+            // Generasi 3 - Cicit dari Yitno Suwardi
+            "3.1.1": { id: "3.1.1", name: "Sutopo", children: [] },
+            "3.1.2": { id: "3.1.2", name: "Sutono + Siti Aisyah", children: ["3.1.2.1", "3.1.2.2"] },
+            "3.1.3": { id: "3.1.3", name: "Suparjo + Sriningsih", children: ["3.1.3.1", "3.1.3.3"] },
+            "3.1.4": { id: "3.1.4", name: "Suwarni + Sihono", children: ["3.1.4.1", "3.1.4.2"] },
+            "3.1.5": { id: "3.1.5", name: "Endang S + Supardi", children: ["3.1.5.1", "3.1.5.2", "3.1.5.3"] },
+            "3.1.6": { id: "3.1.6", name: "Yamtini + Dadang", children: ["3.1.6.1"] },
+            "3.1.7": { id: "3.1.7", name: "Sumardi + Eka", children: ["3.1.7.1"] },
+            
+            // Generasi 4
+            "3.1.2.1": { id: "3.1.2.1", name: "Dera Susanti", children: [] },
+            "3.1.2.2": { id: "3.1.2.2", name: "Dendi", children: [] },
+            "3.1.3.1": { id: "3.1.3.1", name: "Bayu Andrian", children: [] },
+            "3.1.3.3": { id: "3.1.3.3", name: "Sandi Nugroho", children: [] },
+            "3.1.4.1": { id: "3.1.4.1", name: "Dini Sasmita", children: [] },
+            "3.1.4.2": { id: "3.1.4.2", name: "Yoga Dwi S", children: [] },
+            "3.1.5.1": { id: "3.1.5.1", name: "Nanda Hanista", children: [] },
+            "3.1.5.2": { id: "3.1.5.2", name: "Andria Naufal", children: [] },
+            "3.1.5.3": { id: "3.1.5.3", name: "Alifani", children: [] },
+            "3.1.6.1": { id: "3.1.6.1", name: "Dara Fitri", children: [] },
+            "3.1.7.1": { id: "3.1.7.1", name: "Bagas", children: [] },
+            
+            // Generasi 3 - Cicit dari Suwarti
+            "3.2.1": { id: "3.2.1", name: "Sujarwo is Sri + Rahayu", children: ["3.2.1.1"] },
+            "3.2.2": { id: "3.2.2", name: "Tri Umayati + Aris S", children: ["3.2.2.1", "3.2.2.2"] },
+            "3.2.1.1": { id: "3.2.1.1", name: "Galuh Ayu + Ari", children: ["3.2.1.1.1", "3.2.1.1.2"] },
+            "3.2.2.1": { id: "3.2.2.1", name: "Endrat + Riana", children: ["3.2.2.1.1", "3.2.2.1.2", "3.2.2.1.3"] },
+            "3.2.2.2": { id: "3.2.2.2", name: "Aprilia + Hari", children: [] },
+            
+            // Generasi 5
+            "3.2.1.1.1": { id: "3.2.1.1.1", name: "Bagus Aditya", children: [] },
+            "3.2.1.1.2": { id: "3.2.1.1.2", name: "Daniswara", children: [] },
+            "3.2.2.1.1": { id: "3.2.2.1.1", name: "Aldo", children: [] },
+            "3.2.2.1.2": { id: "3.2.2.1.2", name: "Salsa", children: [] },
+            "3.2.2.1.3": { id: "3.2.2.1.3", name: "Bayu", children: [] },
+            
+            // Generasi 3 - Cicit dari Supartinah
+            "3.3.1": { id: "3.3.1", name: "Waljinah + Darsono", children: ["3.3.1.1", "3.3.1.2"] },
+            "3.3.2": { id: "3.3.2", name: "Warsiati + Samin", children: ["3.3.2.1", "3.3.2.2", "3.3.2.3", "3.3.2.4"] },
+            "3.3.1.1": { id: "3.3.1.1", name: "Hamas Igo", children: [] },
+            "3.3.1.2": { id: "3.3.1.2", name: "Aulia Rizki", children: [] },
+            "3.3.2.1": { id: "3.3.2.1", name: "Ana Dwi", children: [] },
+            "3.3.2.2": { id: "3.3.2.2", name: "Kurniawan Budi", children: [] },
+            "3.3.2.3": { id: "3.3.2.3", name: "Kurnia Budiyanti", children: [] },
+            "3.3.2.4": { id: "3.3.2.4", name: "Bayu", children: [] },
+            
+            // Generasi 3 - Cicit dari Suwarno
+            "3.4.1": { id: "3.4.1", name: "Sriatun + Sukadi", children: ["3.4.1.1", "3.4.1.2", "3.4.1.3"] },
+            "3.4.2": { id: "3.4.2", name: "Sriyanto + Suminem", children: ["3.4.2.1", "3.4.2.2"] },
+            "3.4.3": { id: "3.4.3", name: "Wati + Johan", children: ["3.4.3.1"] },
+            "3.4.4": { id: "3.4.4", name: "Widodo + Suwarti", children: ["3.4.4.1", "3.4.4.2"] },
+            "3.4.1.1": { id: "3.4.1.1", name: "Nita", children: [] },
+            "3.4.1.2": { id: "3.4.1.2", name: "Haris", children: [] },
+            "3.4.1.3": { id: "3.4.1.3", name: "Hamas", children: [] },
+            "3.4.2.1": { id: "3.4.2.1", name: "Indah Permata", children: [] },
+            "3.4.2.2": { id: "3.4.2.2", name: "Rahma", children: [] },
+            "3.4.3.1": { id: "3.4.3.1", name: "Yulitasari", children: [] },
+            "3.4.4.1": { id: "3.4.4.1", name: "Sri Rahayu", children: [] },
+            "3.4.4.2": { id: "3.4.4.2", name: "Fajar Ridwan", children: [] },
+            
+            // Generasi 3 - Cicit dari Suwandi
+            "3.5.1": { id: "3.5.1", name: "Supardi + Sujiwarisah", children: ["3.5.1.1", "3.5.1.2", "3.5.1.3"] },
+            "3.5.2": { id: "3.5.2", name: "Mulya + Sularmi", children: ["3.5.2.1"] },
+            "3.5.3": { id: "3.5.3", name: "Reni Rahayu + Mulkan", children: ["3.5.3.1", "3.5.3.2", "3.5.3.3"] },
+            "3.5.1.1": { id: "3.5.1.1", name: "Ardiansyah", children: [] },
+            "3.5.1.2": { id: "3.5.1.2", name: "Dwi Novitasari", children: [] },
+            "3.5.1.3": { id: "3.5.1.3", name: "Anggun Triatmasari", children: [] },
+            "3.5.2.1": { id: "3.5.2.1", name: "Syahrul Ramadan", children: [] },
+            "3.5.3.1": { id: "3.5.3.1", name: "Angga Lesmana", children: [] },
+            "3.5.3.2": { id: "3.5.3.2", name: "Rahul Armada", children: [] },
+            "3.5.3.3": { id: "3.5.3.3", name: "Yulian Fajar", children: [] },
+            
+            // Generasi 3 - Cicit dari Sukirman
+            "3.6.1": { id: "3.6.1", name: "Wati", children: [] },
+            "3.6.2": { id: "3.6.2", name: "Bambang", children: [] },
+            "3.6.3": { id: "3.6.3", name: "Joko", children: [] },
+            "3.6.4": { id: "3.6.4", name: "Priyo", children: [] },
+            "3.6.5": { id: "3.6.5", name: "Endang", children: [] },
+            
+            // Generasi 2 - Cucu dari SASTRO Suwignyo
+            "4.1": { id: "4.1", name: "Martoyo + Sufiatun", children: ["4.1.1", "4.1.2", "4.1.3", "4.1.4"] },
+            "4.1.1": { id: "4.1.1", name: "Taufik + Sukardi", children: ["4.1.1.1", "4.1.1.2"] },
+            "4.1.2": { id: "4.1.2", name: "Anis Nurhidayati + Agus Widarta", children: ["4.1.2.1", "4.1.2.2", "4.1.2.3"] },
+            "4.1.3": { id: "4.1.3", name: "Muh Fuad + Titik Kristiani", children: ["4.1.3.1", "4.1.3.2"] },
+            "4.1.4": { id: "4.1.4", name: "Istiqomah + Maskuri", children: ["4.1.4.1", "4.1.4.2"] },
+            "4.1.1.1": { id: "4.1.1.1", name: "Taufik Ardiansyah", children: [] },
+            "4.1.1.2": { id: "4.1.1.2", name: "Rizky Abdullah", children: [] },
+            "4.1.2.1": { id: "4.1.2.1", name: "Anita Widarta W", children: [] },
+            "4.1.2.2": { id: "4.1.2.2", name: "Muh Aufa W", children: [] },
+            "4.1.2.3": { id: "4.1.2.3", name: "Hardian Satya W", children: [] },
+            "4.1.3.1": { id: "4.1.3.1", name: "Rahajeng Miranti", children: [] },
+            "4.1.3.2": { id: "4.1.3.2", name: "Radityo Bismo AS", children: [] },
+            "4.1.4.1": { id: "4.1.4.1", name: "Uswatun Niswah", children: [] },
+            "4.1.4.2": { id: "4.1.4.2", name: "Nahla Kutbi M", children: [] },
+            
+            // Generasi 2 - Cucu dari PAWIRO WIYONO
+            "5.1": { id: "5.1", name: "Sukandar + Ratmi", children: [] },
+            "5.2": { id: "5.2", name: "Mariyah + Sukadi", children: ["5.2.1", "5.2.2"] },
+            "5.3": { id: "5.3", name: "Hartowiyono + Juminten", children: ["5.3.1", "5.3.2"] },
+            "5.4": { id: "5.4", name: "Karsinah + Kirun", children: ["5.4.1", "5.4.2"] },
+            "5.5": { id: "5.5", name: "Sugiono + Wakiyem", children: ["5.5.1", "5.5.2", "5.5.3", "5.5.4", "5.5.5", "5.5.6", "5.5.7"] },
+            
+            // Generasi 3
+            "5.2.1": { id: "5.2.1", name: "Harjilah + Rahmat", children: ["5.2.1.1", "5.2.1.2"] },
+            "5.2.2": { id: "5.2.2", name: "Haryanti + Warsiyo", children: ["5.2.2.1", "5.2.2.2"] },
+            "5.3.1": { id: "5.3.1", name: "Puji Syahadat + Devi", children: ["5.3.1.1", "5.3.1.2", "5.3.1.3"] },
+            "5.3.2": { id: "5.3.2", name: "Pudjiati + Sunardi", children: ["5.3.2.1"] },
+            "5.4.1": { id: "5.4.1", name: "Supardi", children: [] },
+            "5.4.2": { id: "5.4.2", name: "Sukarjo", children: [] },
+            "5.5.1": { id: "5.5.1", name: "Endang Sri M + Sutarmuji", children: ["5.5.1.1", "5.5.1.2", "5.5.1.3"] },
+            "5.5.2": { id: "5.5.2", name: "Supriyati + Sukardi", children: ["5.5.2.1", "5.5.2.2"] },
+            "5.5.3": { id: "5.5.3", name: "Sulastri + Sihono", children: ["5.5.3.1", "5.5.3.2"] },
+            "5.5.4": { id: "5.5.4", name: "Sri Astuti", children: [] },
+            "5.5.5": { id: "5.5.5", name: "Suprapto", children: [] },
+            "5.5.6": { id: "5.5.6", name: "Ninik Aida", children: [] },
+            "5.5.7": { id: "5.5.7", name: "Bambang H", children: [] },
+            
+            // Generasi 4
+            "5.2.1.1": { id: "5.2.1.1", name: "Habib Nur Syafi'i", children: [] },
+            "5.2.1.2": { id: "5.2.1.2", name: "Aisyah Nurul", children: [] },
+            "5.2.2.1": { id: "5.2.2.1", name: "Lutfi Anggraini", children: [] },
+            "5.2.2.2": { id: "5.2.2.2", name: "Nazwa Esnaini", children: [] },
+            "5.3.1.1": { id: "5.3.1.1", name: "Dita", children: [] },
+            "5.3.1.2": { id: "5.3.1.2", name: "Tata", children: [] },
+            "5.3.1.3": { id: "5.3.1.3", name: "Satriya", children: [] },
+            "5.3.2.1": { id: "5.3.2.1", name: "Bintang", children: [] },
+            "5.5.1.1": { id: "5.5.1.1", name: "Rini", children: [] },
+            "5.5.1.2": { id: "5.5.1.2", name: "Syarifudin", children: [] },
+            "5.5.1.3": { id: "5.5.1.3", name: "Safitri", children: [] },
+            "5.5.2.1": { id: "5.5.2.1", name: "Eka Handayani", children: [] },
+            "5.5.2.2": { id: "5.5.2.2", name: "Evi", children: [] },
+            "5.5.3.1": { id: "5.5.3.1", name: "Ari Wibowo", children: [] },
+            "5.5.3.2": { id: "5.5.3.2", name: "Ria Fatmasari", children: [] },
+            
+            // Generasi 2 - Cucu dari KISMO MARTOYO
+            "6.1": { id: "6.1", name: "Sugiyanto + Tatik", children: ["6.1.1", "6.1.2"] },
+            "6.2": { id: "6.2", name: "Sriyatmi + Kertowiyono", children: ["6.2.1", "6.2.2", "6.2.3"] },
+            "6.3": { id: "6.3", name: "Wahadi + Sri Sayekti", children: ["6.3.1", "6.3.2"] },
+            "6.4": { id: "6.4", name: "Purwadi + Sri Paryati", children: ["6.4.1", "6.4.2", "6.4.3"] },
+            "6.5": { id: "6.5", name: "Sumardjono + Sri Suwartiah", children: ["6.5.1", "6.5.2", "6.5.3"] },
+            
+            // Generasi 3
+            "6.1.1": { id: "6.1.1", name: "Mira K", children: [] },
+            "6.1.2": { id: "6.1.2", name: "Ayu", children: [] },
+            "6.2.1": { id: "6.2.1", name: "Didit Suranto + Sri Mintarsih", children: ["6.2.1.1"] },
+            "6.2.2": { id: "6.2.2", name: "Titik Windarti + Mustofa", children: ["6.2.2.1", "6.2.2.2", "6.2.2.3"] },
+            "6.2.3": { id: "6.2.3", name: "Erwin Tri S + Suroto", children: ["6.2.3.1", "6.2.3.2", "6.2.3.3"] },
+            "6.3.1": { id: "6.3.1", name: "Sri Wahyuni + Harno Galuh", children: ["6.3.1.1", "6.3.1.2"] },
+            "6.3.2": { id: "6.3.2", name: "Aan Darmawan + Erna Wahyuni", children: ["6.3.2.1", "6.3.2.2"] },
+            "6.4.1": { id: "6.4.1", name: "Puspasari + Iskandar", children: ["6.4.1.1", "6.4.1.2"] },
+            "6.4.2": { id: "6.4.2", name: "Kusumawati + Nirwan D", children: ["6.4.2.1", "6.4.2.2", "6.4.2.3"] },
+            "6.4.3": { id: "6.4.3", name: "Putri S", children: [] },
+            "6.5.1": { id: "6.5.1", name: "Kingkin K + Edy Sujarwo", children: ["6.5.1.1"] },
+            "6.5.2": { id: "6.5.2", name: "Bayu Listyantoko + Ika Setyaningsih", children: ["6.5.2.1"] },
+            "6.5.3": { id: "6.5.3", name: "Bayu Hermawan + Nuning Krismawati", children: ["6.5.3.1"] },
+            
+            // Generasi 4
+            "6.2.1.1": { id: "6.2.1.1", name: "M Rizal (Alm)", children: [] },
+            "6.2.2.1": { id: "6.2.2.1", name: "Kartika Y + Lili SH", children: [] },
+            "6.2.2.2": { id: "6.2.2.2", name: "Windy W", children: [] },
+            "6.2.2.3": { id: "6.2.2.3", name: "Ferdianto WA", children: [] },
+            "6.2.3.1": { id: "6.2.3.1", name: "M Sidik Setiawan", children: [] },
+            "6.2.3.2": { id: "6.2.3.2", name: "Putri Dewi", children: [] },
+            "6.2.3.3": { id: "6.2.3.3", name: "Putri Imas S", children: [] },
+            "6.3.1.1": { id: "6.3.1.1", name: "Galuh", children: [] },
+            "6.3.1.2": { id: "6.3.1.2", name: "Nazwa", children: [] },
+            "6.3.2.1": { id: "6.3.2.1", name: "Zulfa Hafiz Darmawan", children: [] },
+            "6.3.2.2": { id: "6.3.2.2", name: "Zalfa Aila Sabrina", children: [] },
+            "6.4.1.1": { id: "6.4.1.1", name: "Ajeng", children: [] },
+            "6.4.1.2": { id: "6.4.1.2", name: "Raihan", children: [] },
+            "6.4.2.1": { id: "6.4.2.1", name: "Bagas", children: [] },
+            "6.4.2.2": { id: "6.4.2.2", name: "Irgi", children: [] },
+            "6.4.2.3": { id: "6.4.2.3", name: "Tria", children: [] },
+            "6.5.1.1": { id: "6.5.1.1", name: "Tiara Nabila S", children: [] },
+            "6.5.2.1": { id: "6.5.2.1", name: "Keisha Aulia K", children: [] },
+            "6.5.3.1": { id: "6.5.3.1", name: "Sakito Armina AN", children: [] },
+            
+            // Generasi 2 - Cucu dari WARGA SUDARTA
+            "7.1": { id: "7.1", name: "Tuwaji + Sri Susanti", children: ["7.1.1", "7.1.2", "7.1.3"] },
+            "7.2": { id: "7.2", name: "Tumiatun + Dewoto", children: ["7.2.1", "7.2.2", "7.2.3", "7.2.4"] },
+            "7.3": { id: "7.3", name: "Endang + Wahono", children: ["7.3.1", "7.3.2", "7.3.3", "7.3.4"] },
+            "7.4": { id: "7.4", name: "Jokojomeno + Dwi", children: ["7.4.1", "7.4.2", "7.4.3", "7.4.4", "7.4.5", "7.4.6"] },
+            "7.5": { id: "7.5", name: "Manthoro + Yayuk", children: ["7.5.1", "7.5.2", "7.5.3", "7.5.4"] },
+            "7.6": { id: "7.6", name: "Budi Manthoro + Widya", children: ["7.6.1"] },
+            "7.7": { id: "7.7", name: "Ari Widarto + Nining", children: ["7.7.1", "7.7.2"] },
+            
+            // Generasi 3
+            "7.1.1": { id: "7.1.1", name: "Aprilia ST + Erna", children: ["7.1.1.1"] },
+            "7.1.2": { id: "7.1.2", name: "Thea Novita", children: [] },
+            "7.1.3": { id: "7.1.3", name: "Theo Santo BA", children: [] },
+            "7.2.1": { id: "7.2.1", name: "Erlina Wijaya + Ika", children: ["7.2.1.1", "7.2.1.2", "7.2.1.3"] },
+            "7.2.2": { id: "7.2.2", name: "Bangun Tri Wibowo + Win", children: ["7.2.2.1", "7.2.2.2"] },
+            "7.2.3": { id: "7.2.3", name: "Tri Wisnu E + Sriyono", children: ["7.2.3.1"] },
+            "7.2.4": { id: "7.2.4", name: "Bima + Kumkum", children: ["7.2.4.1"] },
+            "7.3.1": { id: "7.3.1", name: "Christiana YF + Sapto", children: ["7.3.1.1"] },
+            "7.3.2": { id: "7.3.2", name: "Y Agung K", children: [] },
+            "7.3.3": { id: "7.3.3", name: "Octavianti + Dian", children: ["7.3.3.1", "7.3.3.2"] },
+            "7.3.4": { id: "7.3.4", name: "Octaviari + Yogi", children: ["7.3.4.1", "7.3.4.2"] },
+            "7.4.1": { id: "7.4.1", name: "Risa", children: [] },
+            "7.4.2": { id: "7.4.2", name: "Alvin", children: [] },
+            "7.4.3": { id: "7.4.3", name: "Vanda", children: [] },
+            "7.4.4": { id: "7.4.4", name: "Ori", children: [] },
+            "7.4.5": { id: "7.4.5", name: "Rahma", children: [] },
+            "7.4.6": { id: "7.4.6", name: "Andri", children: [] },
+            "7.5.1": { id: "7.5.1", name: "Vivi", children: [] },
+            "7.5.2": { id: "7.5.2", name: "Yara", children: [] },
+            "7.5.3": { id: "7.5.3", name: "Vella", children: [] },
+            "7.5.4": { id: "7.5.4", name: "Rena", children: [] },
+            "7.6.1": { id: "7.6.1", name: "Faiz", children: [] },
+            "7.7.1": { id: "7.7.1", name: "Bunga", children: [] },
+            "7.7.2": { id: "7.7.2", name: "Arkan", children: [] },
+            
+            // Generasi 4
+            "7.1.1.1": { id: "7.1.1.1", name: "Kristo", children: [] },
+            "7.2.1.1": { id: "7.2.1.1", name: "Edgar", children: [] },
+            "7.2.1.2": { id: "7.2.1.2", name: "Naufal", children: [] },
+            "7.2.1.3": { id: "7.2.1.3", name: "Revi", children: [] },
+            "7.2.2.1": { id: "7.2.2.1", name: "Azka", children: [] },
+            "7.2.2.2": { id: "7.2.2.2", name: "Vito", children: [] },
+            "7.2.3.1": { id: "7.2.3.1", name: "Farel", children: [] },
+            "7.2.4.1": { id: "7.2.4.1", name: "Grafisa", children: [] },
+            "7.3.1.1": { id: "7.3.1.1", name: "Bojan", children: [] },
+            "7.3.3.1": { id: "7.3.3.1", name: "Nazwa", children: [] },
+            "7.3.3.2": { id: "7.3.3.2", name: "Aisya", children: [] },
+            "7.3.4.1": { id: "7.3.4.1", name: "Rastra", children: [] },
+            "7.3.4.2": { id: "7.3.4.2", name: "Bunga", children: [] },
+            
+            // Generasi 2 - Cucu dari SUPRATINAH
+            "8.1": { id: "8.1", name: "Kasih + Ngadimin", children: ["8.1.1", "8.1.2", "8.1.3", "8.1.4", "8.1.5"] },
+            "8.2": { id: "8.2", name: "Jimin + Matsuti", children: ["8.2.1", "8.2.2", "8.2.3", "8.2.4", "8.2.5"] },
+            "8.3": { id: "8.3", name: "Dalijo + Warilah", children: ["8.3.1", "8.3.2", "8.3.3", "8.3.4"] },
+            "8.4": { id: "8.4", name: "Wagiman + Mujirah", children: ["8.4.1", "8.4.2", "8.4.3"] },
+            "8.5": { id: "8.5", name: "Mujiyem + Hani", children: ["8.5.1", "8.5.2", "8.5.3", "8.5.4"] },
+            
+            // Generasi 3
+            "8.1.1": { id: "8.1.1", name: "Sukardi", children: [] },
+            "8.1.2": { id: "8.1.2", name: "Tugiman", children: [] },
+            "8.1.3": { id: "8.1.3", name: "Samiyem", children: [] },
+            "8.1.4": { id: "8.1.4", name: "Tukijo", children: [] },
+            "8.1.5": { id: "8.1.5", name: "Jumikem", children: [] },
+            "8.2.1": { id: "8.2.1", name: "Bambang Widiyono + Mai Suryati", children: ["8.2.1.1", "8.2.1.2"] },
+            "8.2.2": { id: "8.2.2", name: "Sri Mulyani + Rubianto", children: ["8.2.2.1"] },
+            "8.2.3": { id: "8.2.3", name: "Turyani + Budiyono", children: ["8.2.3.1"] },
+            "8.2.4": { id: "8.2.4", name: "Chandra + Seri Mutia", children: ["8.2.4.1"] },
+            "8.2.5": { id: "8.2.5", name: "Kus Priyantoro + Sri Lisnawati", children: ["8.2.5.1"] },
+            "8.3.1": { id: "8.3.1", name: "Warsini", children: [] },
+            "8.3.2": { id: "8.3.2", name: "Budiyanto", children: [] },
+            "8.3.3": { id: "8.3.3", name: "Siswadi", children: [] },
+            "8.3.4": { id: "8.3.4", name: "Tri Guntoro", children: [] },
+            "8.4.1": { id: "8.4.1", name: "Suranti", children: [] },
+            "8.4.2": { id: "8.4.2", name: "Tukiyem", children: [] },
+            "8.4.3": { id: "8.4.3", name: "Ngadiah", children: [] },
+            "8.5.1": { id: "8.5.1", name: "Suwadi", children: [] },
+            "8.5.2": { id: "8.5.2", name: "Sapon", children: [] },
+            "8.5.3": { id: "8.5.3", name: "Tukiyem", children: [] },
+            "8.5.4": { id: "8.5.4", name: "Partiani", children: [] },
+            
+            // Generasi 4
+            "8.2.1.1": { id: "8.2.1.1", name: "Jonathan DP", children: [] },
+            "8.2.1.2": { id: "8.2.1.2", name: "Widya Dewi F", children: [] },
+            "8.2.2.1": { id: "8.2.2.1", name: "Devi Marta Oktasari", children: [] },
+            "8.2.3.1": { id: "8.2.3.1", name: "Anjani Malika Dewi", children: [] },
+            "8.2.4.1": { id: "8.2.4.1", name: "Firly Ilham Sadewa", children: [] },
+            "8.2.5.1": { id: "8.2.5.1", name: "Zuniga Rafa AL", children: [] }
+        };
+
+        // Variabel untuk melacak navigasi
+        let currentLevel = "root";
+        const navigationStack = ["root"];
+        let isDarkMode = false;
+
+        // Fungsi untuk menampilkan anggota keluarga
+        function renderFamilyLevel(levelId) {
+            const familyContainer = document.getElementById('familyContainer');
+            familyContainer.innerHTML = '';
+            
+            updateBreadcrumb();
+            
+            const currentData = familyData[levelId];
+            
+            if (!currentData) {
+                familyContainer.innerHTML = '<div class="no-children">Data tidak ditemukan</div>';
+                return;
+            }
+            
+            // Header keluarga
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'family-header';
+            
+            const titleH2 = document.createElement('h2');
+            titleH2.textContent = currentData.name;
+            headerDiv.appendChild(titleH2);
+            
+            // Badge generasi
+            const generation = getGeneration(levelId);
+            const badge = document.createElement('span');
+            badge.className = 'generation-badge';
+            badge.textContent = `Generasi ${generation}`;
+            headerDiv.appendChild(badge);
+            
+            familyContainer.appendChild(headerDiv);
+            
+            // Tampilkan anak-anak
+            if (!currentData.children || currentData.children.length === 0) {
+                const noChildrenDiv = document.createElement('div');
+                noChildrenDiv.className = 'no-children';
+                noChildrenDiv.textContent = '🍃 Tidak ada keturunan yang tercatat';
+                familyContainer.appendChild(noChildrenDiv);
+                return;
+            }
+            
+            const familyLevelDiv = document.createElement('div');
+            familyLevelDiv.className = 'family-level';
+            
+            currentData.children.forEach(childId => {
+                const childData = familyData[childId];
+                
+                if (childData) {
+                    const memberDiv = document.createElement('div');
+                    memberDiv.className = 'family-member';
+                    if (childData.children && childData.children.length > 0) {
+                        memberDiv.classList.add('has-children');
+                    }
+                    
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'member-name';
+                    nameDiv.textContent = childData.name;
+                    
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.className = 'member-details';
+                    
+                    if (childData.children && childData.children.length > 0) {
+                        detailsDiv.textContent = `👥 ${childData.children.length} anak`;
+                    } else {
+                        detailsDiv.textContent = '🍃 Tidak ada anak';
+                    }
+                    
+                    memberDiv.appendChild(nameDiv);
+                    memberDiv.appendChild(detailsDiv);
+                    
+                    memberDiv.addEventListener('click', () => navigateToLevel(childData.id));
+                    
+                    familyLevelDiv.appendChild(memberDiv);
+                }
+            });
+            
+            familyContainer.appendChild(familyLevelDiv);
+        }
+
+        // Fungsi untuk mendapatkan generasi
+        function getGeneration(levelId) {
+            if (levelId === "root") return 0;
+            const dots = levelId.split('.').length;
+            return dots;
+        }
+
+        // Fungsi untuk memperbarui breadcrumb
+        function updateBreadcrumb() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            breadcrumb.innerHTML = '';
+            
+            navigationStack.forEach((levelId, index) => {
+                const breadcrumbItem = document.createElement('span');
+                breadcrumbItem.className = 'breadcrumb-item';
+                const data = familyData[levelId];
+                breadcrumbItem.textContent = data?.name || 'PAWIROJOYO';
+                
+                breadcrumbItem.addEventListener('click', () => {
+                    navigationStack.splice(index + 1);
+                    currentLevel = levelId;
+                    renderFamilyLevel(currentLevel);
+                });
+                
+                breadcrumb.appendChild(breadcrumbItem);
+            });
+        }
+
+        // Fungsi navigasi
+        function navigateToLevel(levelId) {
+            currentLevel = levelId;
+            navigationStack.push(levelId);
+            renderFamilyLevel(levelId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Fungsi reset ke root
+        function resetToRoot() {
+            navigationStack.length = 0;
+            navigationStack.push("root");
+            currentLevel = "root";
+            renderFamilyLevel("root");
+        }
+
+        // Fungsi pencarian
+        function searchFamily() {
+            const searchBox = document.getElementById('searchBox');
+            const searchResults = document.getElementById('searchResults');
+            const query = searchBox.value.toLowerCase().trim();
+            
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            const results = [];
+            Object.keys(familyData).forEach(key => {
+                const member = familyData[key];
+                if (member.name.toLowerCase().includes(query)) {
+                    results.push({ id: key, name: member.name });
+                }
+            });
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div style="padding: 10px; text-align: center; color: var(--text-tertiary);">Tidak ditemukan</div>';
+                return;
+            }
+            
+            searchResults.innerHTML = '';
+            results.slice(0, 10).forEach(result => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'search-result-item';
+                resultDiv.textContent = result.name;
+                resultDiv.addEventListener('click', () => {
+                    // Bangun navigation stack
+                    const path = result.id.split('.');
+                    navigationStack.length = 0;
+                    navigationStack.push('root');
+                    
+                    let accumulated = '';
+                    path.forEach(segment => {
+                        accumulated = accumulated ? `${accumulated}.${segment}` : segment;
+                        if (accumulated !== result.id) {
+                            navigationStack.push(accumulated);
+                        }
+                    });
+                    
+                    currentLevel = result.id;
+                    renderFamilyLevel(result.id);
+                    searchBox.value = '';
+                    searchResults.innerHTML = '';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                searchResults.appendChild(resultDiv);
+            });
+        }
+
+        // Fungsi toggle dark mode
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        // Fungsi menampilkan statistik
+        function showStats() {
+            const modal = document.getElementById('statsModal');
+            const statsContent = document.getElementById('statsContent');
+            
+            // Hitung statistik
+            let totalMembers = 0;
+            let generations = {};
+            let familyBranches = 8; // Jumlah cabang keluarga utama
+            
+            Object.keys(familyData).forEach(key => {
+                if (key !== 'root') {
+                    totalMembers++;
+                    const gen = getGeneration(key);
+                    generations[gen] = (generations[gen] || 0) + 1;
+                }
+            });
+            
+            const maxGeneration = Math.max(...Object.keys(generations).map(Number));
+            
+            statsContent.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${totalMembers}</div>
+                    <div class="stat-label">Total Anggota</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${maxGeneration}</div>
+                    <div class="stat-label">Generasi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${familyBranches}</div>
+                    <div class="stat-label">Cabang Keluarga</div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // Fungsi tutup modal
+        function closeModal() {
+            document.getElementById('statsModal').style.display = 'none';
+        }
+
+        // Tutup modal jika klik di luar
+        window.onclick = function(event) {
+            const modal = document.getElementById('statsModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load dark mode preference
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                isDarkMode = true;
+                document.body.classList.add('dark-mode');
+            }
+            
+            renderFamilyLevel(currentLevel);
+        });
+    </script>
+</body>
+</html>
