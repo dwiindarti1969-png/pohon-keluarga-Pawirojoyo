@@ -497,6 +497,164 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-secondary);
         }
+        
+        /* Tree Diagram Page */
+        .tree-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-primary);
+            z-index: 2000;
+            overflow: auto;
+            padding: 10px;
+        }
+        
+        .tree-page.active {
+            display: block;
+        }
+        
+        .tree-header {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+        
+        .tree-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .tree-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .tree-container {
+            background-color: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 30px 20px;
+            box-shadow: var(--shadow-md);
+            overflow-x: auto;
+        }
+        
+        .tree {
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            white-space: pre;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        
+        .tree-node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline;
+        }
+        
+        .tree-node:hover {
+            color: var(--accent-primary);
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        
+        .tree-branch {
+            color: var(--text-tertiary);
+        }
+        
+        .generation-1 {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .generation-2 {
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .generation-3 {
+            color: #2ecc71;
+        }
+        
+        .generation-4 {
+            color: #f39c12;
+        }
+        
+        .generation-5 {
+            color: #9b59b6;
+        }
+        
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .zoom-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--accent-primary);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        .zoom-btn:hover {
+            background: var(--accent-secondary);
+            transform: scale(1.1);
+        }
+        
+        .zoom-btn:active {
+            transform: scale(0.95);
+        }
+        
+        @media (max-width: 768px) {
+            .tree {
+                font-size: 0.75rem;
+            }
+            
+            .zoom-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .zoom-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tree {
+                font-size: 0.65rem;
+            }
+            
+            .tree-container {
+                padding: 15px 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -511,8 +669,8 @@
                 <button class="icon-button" onclick="showStats()">
                     📊 Statistik
                 </button>
-                <button class="icon-button" onclick="resetToRoot()">
-                    🏠 Kembali ke Awal
+                <button class="icon-button" onclick="showTreeDiagram()">
+                    🌳 Diagram Pohon
                 </button>
             </div>
         </header>
@@ -532,6 +690,38 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2 style="margin-bottom: 20px; color: var(--text-primary);">📊 Statistik Keluarga</h2>
             <div class="stats-container" id="statsContent"></div>
+        </div>
+    </div>
+    
+    <!-- Tree Diagram Page -->
+    <div id="treePage" class="tree-page">
+        <div class="tree-header">
+            <h2>🌳 Diagram Pohon Keluarga Pawirojoyo</h2>
+            <p style="font-size: 0.9rem; opacity: 0.9;">Klik nama untuk navigasi ke halaman detail</p>
+            <div class="tree-controls">
+                <button class="icon-button" onclick="hideTreeDiagram()">
+                    🏠 Kembali ke Halaman Utama
+                </button>
+                <button class="icon-button" onclick="toggleDarkMode()">
+                    🌓 Mode Gelap
+                </button>
+                <button class="icon-button" onclick="expandAllTree()">
+                    📂 Expand All
+                </button>
+                <button class="icon-button" onclick="collapseAllTree()">
+                    📁 Collapse All
+                </button>
+            </div>
+        </div>
+        
+        <div class="tree-container">
+            <div class="tree" id="treeContent"></div>
+        </div>
+        
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+            <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+            <button class="zoom-btn" onclick="resetZoom()" title="Reset Zoom">⟲</button>
         </div>
     </div>
 
@@ -1200,6 +1390,473 @@
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
+        }
+        
+        // Tree Diagram Functions
+        let currentZoom = 1;
+        const treeData = `PAWIROJOYO
+│
+├── 1. JOYO WERDOYO (Alm)
+│   ├── 1.1 SUMEDI (Alm) + Suparti
+│   │   ├── 1.1.1 Sukoco (Alm) + Harsetyati
+│   │   │   ├── Asti + Dedi
+│   │   │   └── Andika Saputra
+│   │   ├── 1.1.2 Agus Supono + Winarni
+│   │   │   ├── Agus Sunarto
+│   │   │   └── Dwi + Nyonya Dwi
+│   │   ├── 1.1.3 Priyo Tri Purnomo + Muryati
+│   │   │   ├── Joko Novianto
+│   │   │   ├── Putri
+│   │   │   ├── Yulian
+│   │   │   └── Wilda
+│   │   ├── 1.1.4 Retno W + Zulfadli
+│   │   │   ├── Nanda Kusumaningsih
+│   │   │   └── Adinda Sukmaningsih
+│   │   ├── 1.1.5 Subur Widodo + Erni
+│   │   │   ├── Lia
+│   │   │   └── Akmal
+│   │   └── 1.1.6 Sembodo + Mila
+│   │       ├── Iyan
+│   │       └── Arfan Wijaya
+│   ├── 1.2 SUMIRAH (Alm) + Sudarno
+│   │   ├── 1.2.1 Suwijiati + Muhadi
+│   │   │   └── 1.2.1.1 Evi + Joko
+│   │   │       ├── Ayu Antika Sari
+│   │   │       ├── Hendra Saputra
+│   │   │       ├── Aditya Tri S
+│   │   │       └── Dina Permata S
+│   │   └── 1.2.2 Bambang + Tutik
+│   │       ├── Anggun Hapsari
+│   │       └── Andrian Anthapati
+│   ├── 1.3 SUJILAH + Paiman (Alm)
+│   │   └── 1.3.1 Eko Kuncoro Yanti
+│   │       ├── Yudha
+│   │       └── Mauline
+│   ├── 1.4 MARYOTO + Sabariyah
+│   │   ├── 1.4.1 Purwanti Umar S
+│   │   │   ├── F Eko Saputro
+│   │   │   └── Nanda Dwi Yuliani
+│   │   ├── 1.4.2 Purwantoro
+│   │   ├── 1.4.3 Purnomo
+│   │   └── 1.4.4 PurSubagyo
+│   ├── 1.5 SUROSO + Widjiati
+│   │   ├── 1.5.1 Ambar RW + Taufik
+│   │   │   ├── Aldi RW
+│   │   │   └── Irfan RW
+│   │   ├── 1.5.2 Peni RW + Gunawan
+│   │   │   ├── Diva RW
+│   │   │   └── Hikmal
+│   │   ├── 1.5.3 Cahyani RW + Supriyono
+│   │   │   ├── Rizky RW
+│   │   │   └── Hafish RW
+│   │   ├── 1.5.4 Daris RW + Nining
+│   │   │   ├── Dinda RW
+│   │   │   └── Azzam RW
+│   │   ├── 1.5.5 Ibnu RW + Eka
+│   │   │   └── Ageska KRW
+│   │   └── 1.5.6 Fajar RW + Jayadi
+│   └── 1.6 Yoko Suparno Hadi Asih
+│       ├── 1.6.1 Lisa + Teguh Hari Wibowo
+│       │   ├── Pascalia
+│       │   └── Elang
+│       └── 1.6.2 Awang + Cristine
+│           └── Win
+│
+├── 2. ADMO DIMEJO
+│   ├── 2.1 Ny Semi + Pademo
+│   ├── 2.2 Suripto + Suyati
+│   │   ├── 2.2.1 Heri Purnomo + Sri Hartiwi
+│   │   │   ├── Javier Mabel Kalyana
+│   │   │   └── Janitra Bima Kalyana
+│   │   ├── 2.2.2 Dwi Indarti + Sunjoto
+│   │   │   ├── 2.2.2.1 Chaesara Pahleva + Jusuf Rahmanto
+│   │   │   │   └── Hanasita Kei
+│   │   │   └── Fairusufa Salsabila
+│   │   ├── 2.2.3 Heri Trianta + Nike Novitasari
+│   │   │   ├── Gelar Arya Legowo
+│   │   │   └── Gendis Sahara Putri Triyanta
+│   │   ├── 2.2.4 Nuryati + Harjono
+│   │   │   ├── Adam
+│   │   │   ├── Hamiizah
+│   │   │   └── Abbas
+│   │   └── 2.2.5 Heri Pancoko Nugroho + Sri Nurcahyani
+│   │       ├── Hilal Urda Sadya
+│   │       ├── Kiandra
+│   │       └── Gibran
+│   ├── 2.3 Suratno + Sri
+│   │   ├── 2.3.1 Sunduro + Tri Lestari
+│   │   │   └── Alya Ratih Iswandari
+│   │   ├── 2.3.2 Sundari + Deni AS
+│   │   │   └── Hans Anayutama
+│   │   ├── 2.3.3 Tri Budi + Weningku DamarJati
+│   │   │   └── Fayola Oka Gayatri
+│   │   └── 2.3.4 Soeharso + Yulianti
+│   │       └── Nabila Adani Setyaningtyas
+│   └── 2.4 Ngadinem + Adi Wiyono
+│       ├── 2.4.1 Ngatijan + Tri Haryanti
+│       │   ├── Gunawan Eko Prasetyo
+│       │   ├── Dimas Gunarto
+│       │   └── Tri Djoko Gunarso
+│       ├── 2.4.2 Ngadiyem + Mardiyo
+│       │   ├── Panji Riyoko
+│       │   └── Galih Fitrianto
+│       └── 2.4.3 Marwati + Ashari
+│           ├── Estri Ari Respati
+│           └── Sekar Juwitaningsih
+│
+├── 3. DARMO WIYONO
+│   ├── 3.1 Yitno Suwardi + Jumiyem
+│   │   ├── 3.1.1 Sutopo
+│   │   ├── 3.1.2 Sutono + Siti Aisyah
+│   │   │   ├── Dera Susanti
+│   │   │   └── Dendi
+│   │   ├── 3.1.3 Suparjo + Sriningsih
+│   │   │   ├── Bayu Andrian
+│   │   │   └── Sandi Nugroho
+│   │   ├── 3.1.4 Suwarni + Sihono
+│   │   │   ├── Dini Sasmita
+│   │   │   └── Yoga Dwi S
+│   │   ├── 3.1.5 Endang S + Supardi
+│   │   │   ├── Nanda Hanista
+│   │   │   ├── Andria Naufal
+│   │   │   └── Alifani
+│   │   ├── 3.1.6 Yamtini + Dadang
+│   │   │   └── Dara Fitri
+│   │   └── 3.1.7 Sumardi + Eka
+│   │       └── Bagas
+│   ├── 3.2 Suwarti + Musto
+│   │   ├── 3.2.1 Sujarwo Is Sri + Rahayu
+│   │   │   └── 3.2.1.1 Galuh Ayu + Ari
+│   │   │       ├── Bagus Aditya
+│   │   │       └── Daniswara
+│   │   └── 3.2.2 Tri Umayati + Aris S
+│   │       ├── 3.2.2.1 Endrat + Riana
+│   │       │   ├── Aldo
+│   │       │   ├── Salsa
+│   │       │   └── Bayu
+│   │       └── 3.2.2.2 Aprilia + Hari
+│   ├── 3.3 Supartinah + Bejo
+│   │   ├── 3.3.1 Waljinah + Darsono
+│   │   │   ├── Hamas Igo
+│   │   │   └── Aulia Rizki
+│   │   └── 3.3.2 Warsiati + Samin
+│   │       ├── Ana Dwi
+│   │       ├── Kurniawan Budi
+│   │       ├── Kurnia Budiyanti
+│   │       └── Bayu
+│   ├── 3.4 Suwarno + Ny
+│   │   ├── 3.4.1 Sriatun + Sukadi
+│   │   │   ├── Nita
+│   │   │   ├── Haris
+│   │   │   └── Hamas
+│   │   ├── 3.4.2 Sriyanto + Suminem
+│   │   │   ├── Indah Permata
+│   │   │   └── Rahma
+│   │   ├── 3.4.3 Wati + Johan
+│   │   │   └── Yulitasari
+│   │   └── 3.4.4 Widodo + Suwarti
+│   │       ├── Sri Rahayu
+│   │       └── Fajar Ridwan
+│   ├── 3.5 Suwandi + Rubicon
+│   │   ├── 3.5.1 Supardi + Sujiwarisah
+│   │   │   ├── Ardiansyah
+│   │   │   ├── Dwi Novitasari
+│   │   │   └── Anggun Triatmasari
+│   │   ├── 3.5.2 Mulya + Sularmi
+│   │   │   └── Syahrul Ramadan
+│   │   └── 3.5.3 Reni Rahayu + Mulkan
+│   │       ├── Angga Lesmana
+│   │       ├── Rahul Armada
+│   │       └── Yulian Fajar
+│   └── 3.6 Sukirman + Myke Mandaun
+│       ├── Wati
+│       ├── Bambang
+│       ├── Joko
+│       ├── Priyo
+│       └── Endang
+│
+├── 4. SASTRO SUWIGNYO
+│   └── 4.1 Martoyo + Sufiatun
+│       ├── 4.1.1 Taufik + Sukardi
+│       │   ├── Taufik Ardiansyah
+│       │   └── Rizky Abdullah
+│       ├── 4.1.2 Anis Nurhidayati + Agus Widarta
+│       │   ├── Anita Widarta W
+│       │   ├── Muh Aufa W
+│       │   └── Hardian Satya W
+│       ├── 4.1.3 Muh Fuad + Titik Kristiani
+│       │   ├── Rahajeng Miranti
+│       │   └── Radityo Bismo AS
+│       └── 4.1.4 Istiqomah + Maskuri
+│           ├── Uswatun Niswah
+│           └── Nahla Kutbi M
+│
+├── 5. PAWIRO WIYONO
+│   ├── 5.1 Sukandar + Ratmi
+│   ├── 5.2 Mariyah + Sukadi
+│   │   ├── 5.2.1 Harjilah + Rahmat
+│   │   │   ├── Habib Nur Syafi'i
+│   │   │   └── Aisyah Nurul
+│   │   └── 5.2.2 Haryanti + Warsiyo
+│   │       ├── Lutfi Anggraini
+│   │       └── Nazwa Esnaini
+│   ├── 5.3 Hartowiyono + Juminten
+│   │   ├── 5.3.1 Puji Syahadat + Devi
+│   │   │   ├── Dita
+│   │   │   ├── Tata
+│   │   │   └── Satriya
+│   │   └── 5.3.2 Pudjiati + Sunardi
+│   │       └── Bintang
+│   ├── 5.4 Karsinah + Kirun
+│   │   ├── Supardi
+│   │   └── Sukarjo
+│   └── 5.5 Sugiono + Wakiyem
+│       ├── 5.5.1 Endang Sri M + Sutarmuji
+│       │   ├── Rini
+│       │   ├── Syarifudin
+│       │   └── Safitri
+│       ├── 5.5.2 Supriyati + Sukardi
+│       │   ├── Eka Handayani
+│       │   └── Evi
+│       ├── 5.5.3 Sulastri + Sihono
+│       │   ├── Ari Wibowo
+│       │   └── Ria Fatmasari
+│       ├── 5.5.4 Sri Astuti
+│       ├── 5.5.5 Suprapto
+│       ├── 5.5.6 Ninik Aida
+│       └── 5.5.7 Bambang H
+│
+├── 6. KISMO MARTOYO
+│   ├── 6.1 Sugiyanto + Tatik
+│   │   ├── Mira K
+│   │   └── Ayu
+│   ├── 6.2 Sriyatmi + Kertowiyono
+│   │   ├── 6.2.1 Didit Suranto + Sri Mintarsih
+│   │   │   └── M Rizal (Alm)
+│   │   ├── 6.2.2 Titik Windarti + Mustofa
+│   │   │   ├── Kartika Y + Lili SH
+│   │   │   ├── Windy W
+│   │   │   └── Ferdianto WA
+│   │   └── 6.2.3 Erwin Tri S + Suroto
+│   │       ├── M Sidik Setiawan
+│   │       ├── Putri Dewi
+│   │       └── Putri Imas S
+│   ├── 6.3 Wahadi + Sri Sayekti
+│   │   ├── 6.3.1 Sri Wahyuni + Harno Galuh
+│   │   │   ├── Galuh
+│   │   │   └── Nazwa
+│   │   └── 6.3.2 Aan Darmawan + Erna Wahyuni
+│   │       ├── Zulfa Hafiz Darmawan
+│   │       └── Zalfa Aila Sabrina
+│   ├── 6.4 Purwadi + Sri Paryati
+│   │   ├── 6.4.1 Puspasari + Iskandar
+│   │   │   ├── Ajeng
+│   │   │   └── Raihan
+│   │   ├── 6.4.2 Kusumawati + Nirwan D
+│   │   │   ├── Bagas
+│   │   │   ├── Irgi
+│   │   │   └── Tria
+│   │   └── 6.4.3 Putri S
+│   └── 6.5 Sumardjono + Sri Suwartiah
+│       ├── 6.5.1 Kingkin K + Edy Sujarwo
+│       │   └── Tiara Nabila S
+│       ├── 6.5.2 Bayu Listyantoko + Ika Setyaningsih
+│       │   └── Keisha Aulia K
+│       └── 6.5.3 Bayu Hermawan + Nuning Krismawati
+│           └── Sakito Armina AN
+│
+├── 7. WARGA SUDARTA
+│   ├── 7.1 Tuwaji + Sri Susanti
+│   │   ├── 7.1.1 Aprilia ST + Erna
+│   │   │   └── Kristo
+│   │   ├── 7.1.2 Thea Novita
+│   │   └── 7.1.3 Theo Santo BA
+│   ├── 7.2 Tumiatun + Dewoto
+│   │   ├── 7.2.1 Erlina Wijaya + Ika
+│   │   │   ├── Edgar
+│   │   │   ├── Naufal
+│   │   │   └── Revi
+│   │   ├── 7.2.2 Bangun Tri Wibowo + Win
+│   │   │   ├── Azka
+│   │   │   └── Vito
+│   │   ├── 7.2.3 Tri Wisnu E + Sriyono
+│   │   │   └── Farel
+│   │   └── 7.2.4 Bima + Kumkum
+│   │       └── Grafisa
+│   ├── 7.3 Endang + Wahono
+│   │   ├── 7.3.1 Christiana YF + Sapto
+│   │   │   └── Bojan
+│   │   ├── 7.3.2 Y Agung K
+│   │   ├── 7.3.3 Octavianti + Dian
+│   │   │   └── Nazwa
+│   │   ├── 7.3.4 Aisya
+│   │   ├── 7.3.4 Octaviari + Yogi
+│   │   │   └── Rastra
+│   │   └── 7.3.5 Bunga
+│   ├── 7.4 Jokojomeno + Dwi
+│   │   ├── Risa
+│   │   ├── Alvin
+│   │   ├── Vanda
+│   │   ├── Ori
+│   │   ├── Rahma
+│   │   └── Andri
+│   ├── 7.5 Manthoro + Yayuk
+│   │   ├── Vivi
+│   │   ├── Yara
+│   │   ├── Vella
+│   │   └── Rena
+│   ├── 7.6 Budi Manthoro + Widya
+│   │   └── Faiz
+│   └── 7.7 Ari Widarto + Nining
+│       ├── Bunga
+│       └── Arkan
+│
+└── 8. SUPRATINAH
+    ├── 8.1 Kasih + Ngadimin
+    │   ├── Sukardi
+    │   ├── Tugiman
+    │   ├── Samiyem
+    │   ├── Tukijo
+    │   └── Jumikem
+    ├── 8.2 Jimin + Matsuti
+    │   ├── 8.2.1 Bambang Widiyono + Mai Suryati
+    │   │   ├── Jonathan DP
+    │   │   └── Widya Dewi F
+    │   ├── 8.2.2 Sri Mulyani + Rubianto
+    │   │   └── Devi Marta Oktasari
+    │   ├── 8.2.3 Turyani + Budiyono
+    │   │   └── Anjani Malika Dewi
+    │   ├── 8.2.4 Chandra + Seri Mutia
+    │   │   └── Firly Ilham Sadewa
+    │   └── 8.2.5 Kus Priyantoro + Sri Lisnawati
+    │       └── Zuniga Rafa AL
+    ├── 8.3 Dalijo + Warilah
+    │   ├── Warsini
+    │   ├── Budiyanto
+    │   ├── Siswadi
+    │   └── Tri Guntoro
+    ├── 8.4 Wagiman + Mujirah
+    │   ├── Suranti
+    │   ├── Tukiyem
+    │   └── Ngadiah
+    └── 8.5 Mujiyem + Hani
+        ├── Suwadi
+        ├── Sapon
+        ├── Tukiyem
+        └── Partiani`;
+        
+        function showTreeDiagram() {
+            const treePage = document.getElementById('treePage');
+            treePage.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderTree();
+        }
+        
+        function hideTreeDiagram() {
+            const treePage = document.getElementById('treePage');
+            treePage.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function renderTree() {
+            const treeContent = document.getElementById('treeContent');
+            const lines = treeData.split('\n');
+            let html = '';
+            
+            lines.forEach(line => {
+                // Deteksi level berdasarkan indentasi
+                const indent = line.match(/^[│\s]*/)[0].length;
+                let generation = 0;
+                
+                if (line.includes('├──') || line.includes('└──')) {
+                    generation = Math.floor(indent / 4) + 1;
+                }
+                
+                // Pisahkan branch dan nama
+                const branchMatch = line.match(/^([│├└─\s]+)/);
+                const branch = branchMatch ? branchMatch[1] : '';
+                const name = line.substring(branch.length);
+                
+                // Cari ID untuk navigasi
+                const idMatch = name.match(/^(\d+\.[\d\.]*)/);
+                const nodeId = idMatch ? idMatch[1] : null;
+                
+                let processedLine = `<span class="tree-branch">${escapeHtml(branch)}</span>`;
+                
+                if (nodeId && familyData[nodeId]) {
+                    processedLine += `<span class="tree-node generation-${generation}" data-id="${nodeId}" onclick="navigateFromTree('${nodeId}')">${escapeHtml(name)}</span>`;
+                } else if (name.trim() !== '') {
+                    processedLine += `<span class="generation-${generation}">${escapeHtml(name)}</span>`;
+                }
+                
+                html += processedLine + '\n';
+            });
+            
+            treeContent.innerHTML = html;
+        }
+        
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        function navigateFromTree(nodeId) {
+            // Tutup tree diagram
+            hideTreeDiagram();
+            
+            // Bangun navigation stack
+            const path = nodeId.split('.');
+            navigationStack.length = 0;
+            navigationStack.push('root');
+            
+            let accumulated = '';
+            path.forEach(segment => {
+                accumulated = accumulated ? `${accumulated}.${segment}` : segment;
+                if (accumulated !== nodeId) {
+                    navigationStack.push(accumulated);
+                }
+            });
+            
+            currentLevel = nodeId;
+            renderFamilyLevel(nodeId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.1, 2);
+            applyZoom();
+        }
+        
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.1, 0.5);
+            applyZoom();
+        }
+        
+        function resetZoom() {
+            currentZoom = 1;
+            applyZoom();
+        }
+        
+        function applyZoom() {
+            const treeContent = document.getElementById('treeContent');
+            treeContent.style.transform = `scale(${currentZoom})`;
+            treeContent.style.transformOrigin = 'top left';
+        }
+        
+        function expandAllTree() {
+            // Untuk implementasi expand/collapse di masa depan
+            alert('Semua cabang sudah ditampilkan');
+        }
+        
+        function collapseAllTree() {
+            // Untuk implementasi expand/collapse di masa depan
+            alert('Fitur collapse akan ditambahkan di versi selanjutnya');
         }
 
         // Inisialisasi
